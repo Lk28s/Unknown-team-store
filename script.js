@@ -8,6 +8,7 @@ const cartItems = document.querySelector('.cart-items');
 const cartCount = document.querySelector('.cart-count');
 const totalPrice = document.querySelector('.total-price');
 const checkoutBtn = document.querySelector('.checkout-btn');
+const toast = document.getElementById('toast');
 
 // WhatsApp number
 const WHATSAPP_NUMBER = '5511960140371';
@@ -36,11 +37,11 @@ document.querySelectorAll('.btn-buy').forEach(button => {
         
         // Efeito visual de clique
         this.style.transform = 'scale(0.95)';
-        this.style.backgroundColor = '#6A1CB8';
+        this.style.background = 'linear-gradient(90deg, var(--primary-dark), var(--primary-color))';
         
         setTimeout(() => {
             this.style.transform = '';
-            this.style.backgroundColor = '';
+            this.style.background = 'linear-gradient(90deg, var(--primary-color), var(--primary-dark))';
             
             // Adicionar produto ao carrinho
             const id = this.dataset.id;
@@ -69,26 +70,34 @@ function addToCart(id, name, price) {
     
     updateCart();
     
-    // Mostrar mensagem de sucesso
-    alert(`${name} adicionado ao carrinho!`);
+    // Mostrar toast de sucesso
+    showToast(`${name} adicionado ao carrinho!`);
 }
 
 // Função para remover item do carrinho
 function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);
     updateCart();
+    showToast('Produto removido do carrinho!');
 }
 
 // Atualizar carrinho
 function updateCart() {
     // Atualizar contador
-    cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCount.textContent = totalItems;
+    
+    // Animar o contador
+    cartCount.style.animation = 'none';
+    setTimeout(() => {
+        cartCount.style.animation = 'bounce 1s infinite alternate';
+    }, 10);
     
     // Atualizar itens
     cartItems.innerHTML = '';
     
     if (cart.length === 0) {
-        cartItems.innerHTML = '<p class="empty-cart">Seu carrinho está vazio</p>';
+        cartItems.innerHTML = '<p class="empty-cart" style="text-align: center; padding: 20px; color: var(--text-secondary);">Seu carrinho está vazio</p>';
     } else {
         cart.forEach(item => {
             const cartItem = document.createElement('div');
@@ -119,10 +128,22 @@ function updateCart() {
     totalPrice.textContent = `R$ ${total.toFixed(2)}`;
 }
 
+// Mostrar toast de notificação
+function showToast(message) {
+    const toastMessage = toast.querySelector('.toast-message');
+    toastMessage.textContent = message;
+    
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
 // Finalizar compra
 checkoutBtn.addEventListener('click', () => {
     if (cart.length === 0) {
-        alert('Seu carrinho está vazio!');
+        showToast('Seu carrinho está vazio!');
         return;
     }
     
@@ -133,8 +154,12 @@ checkoutBtn.addEventListener('click', () => {
         message += `- ${item.name} (Quantidade: ${item.quantity})\n`;
     });
     
-    message += `\nTotal: R$ ${cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)}`;
+    const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+    message += `\nTotal: R$ ${total}`;
     message += '\n\nPor favor, entre em contato para finalizar a compra.';
+    
+    // Registrar log da compra
+    logPurchase(cart, total);
     
     // Codificar mensagem para URL
     const encodedMessage = encodeURIComponent(message);
@@ -144,7 +169,37 @@ checkoutBtn.addEventListener('click', () => {
     
     // Abrir WhatsApp
     window.open(whatsappURL, '_blank');
+    
+    // Limpar carrinho após finalizar compra
+    cart = [];
+    updateCart();
+    showToast('Compra finalizada! Entraremos em contato em breve.');
 });
+
+// Função para registrar log de compras
+function logPurchase(cartItems, total) {
+    const timestamp = new Date().toISOString();
+    const logData = {
+        timestamp,
+        items: cartItems,
+        total
+    };
+    
+    // Em um ambiente real, isso enviaria os dados para um servidor
+    console.log('LOG DE COMPRA:', logData);
+    
+    // Simular salvamento de log (em um ambiente real, isso seria uma requisição para uma API)
+    try {
+        // Armazenar no localStorage para persistência (apenas para demonstração)
+        const existingLogs = JSON.parse(localStorage.getItem('purchaseLogs') || '[]');
+        existingLogs.push(logData);
+        localStorage.setItem('purchaseLogs', JSON.stringify(existingLogs));
+        
+        console.log('Log salvo com sucesso!');
+    } catch (error) {
+        console.error('Erro ao salvar log:', error);
+    }
+}
 
 // Inicializar carrinho
 updateCart();
@@ -154,14 +209,107 @@ document.querySelectorAll('.category').forEach(category => {
     category.addEventListener('click', function() {
         // Remover seleção anterior
         document.querySelectorAll('.category').forEach(cat => {
-            cat.style.backgroundColor = '';
+            cat.style.background = 'linear-gradient(145deg, var(--primary-color), var(--primary-dark))';
         });
         
         // Destacar categoria selecionada
-        this.style.backgroundColor = '#FF5722';
+        this.style.background = 'linear-gradient(145deg, var(--accent-color), #E64A19)';
         
-        // Scroll para produtos correspondentes (simulação)
-        const platform = this.textContent.trim();
-        alert(`Mostrando produtos para ${platform}`);
+        // Filtrar produtos (simulação)
+        const platform = this.dataset.category;
+        filterProducts(platform);
     });
+});
+
+// Filtrar produtos por categoria
+function filterProducts(platform) {
+    const allProducts = document.querySelectorAll('.product-card');
+    
+    allProducts.forEach(product => {
+        const productPlatform = product.querySelector('.platform');
+        if (platform === 'all' || (productPlatform && productPlatform.textContent.toLowerCase() === platform)) {
+            product.style.display = 'block';
+            setTimeout(() => {
+                product.style.opacity = '1';
+                product.style.transform = 'translateY(0)';
+            }, 10);
+        } else {
+            product.style.opacity = '0';
+            product.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                product.style.display = 'none';
+            }, 300);
+        }
+    });
+    
+    showToast(`Mostrando produtos para ${platform.toUpperCase()}`);
+}
+
+// Efeito de digitação no título
+function typeWriterEffect() {
+    const logo = document.querySelector('.logo');
+    const text = logo.getAttribute('data-text');
+    let i = 0;
+    let speed = 150;
+    
+    function type() {
+        if (i < text.length) {
+            logo.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    
+    // Iniciar efeito após um breve delay
+    setTimeout(() => {
+        logo.textContent = '';
+        type();
+    }, 1000);
+}
+
+// Iniciar efeitos quando a página carregar
+window.addEventListener('load', () => {
+    typeWriterEffect();
+    
+    // Animar elementos ao rolar a página
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.product-card, .certificate-item');
+        
+        elements.forEach(element => {
+            const position = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (position < screenPosition) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
+        });
+    };
+    
+    // Configurar observador de interseção para animações de scroll
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observar elementos para animação
+    document.querySelectorAll('.product-card, .certificate-item').forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(item);
+    });
+    
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll(); // Executar uma vez ao carregar
 });
