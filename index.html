@@ -1,229 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ic3 Corp Store - Snow Client Premium</title>
-
-    <!-- 🔹 Favicon (ícone da aba) -->
-    <link rel="icon" type="image/png" href="ic3store.png">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Ninja Store</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-animation">
-        <div class="particles"></div>
-        <div class="glow"></div>
-    </div>
-    
-    <div class="container">
-        <header>
-            <div class="logo" data-text="Snow Client">Snow Client</div>
-            <div class="tagline">A Ic3 Corp Store é a melhor em vendas de mods e serviços premium!</div>
-        </header>
-        
-        <section class="intro">
-            <p>A Ic3 Corp Store está se destacando como referência no mercado de clientes modificados, oferecendo produtos exclusivos como o <strong>Snow Client</strong>, compatível com Android 7 até 15, com desempenho otimizado, personalização avançada e preços acessíveis. Também oferecemos serviços personalizados, como desenvolvimento de bots para Discord.</p>
-        </section>
-        
-        <section>
-            <h2 class="section-title">Categorias populares</h2>
-            <div class="categories">
-                <div class="category" data-category="discord">
-                    <i class="fab fa-discord"></i>
-                    <span>DISCORD</span>
-                </div>
-                <div class="category" data-category="apkmod">
-                    <i class="fab fa-android"></i>
-                    <span>APKMOD</span>
-                </div>
-                <div class="category" data-category="corp services">
-                    <i class="fas fa-ice-cream"></i>
-                    <span>Corp Services</span>
-                </div>
-            </div>
-        <div class="divider"></div>
-        
-        <h2 class="section-title">Discord</h2>
-        
-        <!-- === IOS SECTION (Agora: serviços de bots para Discord) === -->
-        <div class="products">
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Welcome Bot - Configuração Completa</h3>
-                    <span class="platform">Discord</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 59,99</span>
-                        <span class="new-price">R$ 29,99</span>
-                    </div>
-                    <button class="btn-buy" data-id="1" data-name="Welcome Bot - Configuração" data-price="84.99">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Admin Bot - Permissões e Painel</h3>
-                    <span class="platform">Discord</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 37,99</span>
-                        <span class="new-price">R$ 28,99</span>
-                    </div>
-                    <button class="btn-buy" data-id="2" data-name="Admin Bot - Permissões" data-price="9.99">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>URL Blocker Bot - Proteção de Links</h3>
-                    <span class="platform">Discord</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 49,99</span>
-                        <span class="new-price">R$ 39,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="3" data-name="URL Blocker Bot" data-price="14.99">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Protector Plus Bot - Antiraid & Moderação</h3>
-                    <span class="platform">Discord</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 79,99</span>
-                        <span class="new-price">R$ 39,99</span>
-                    </div>
-                    <button class="btn-buy" data-id="4" data-name="Protector Plus Bot" data-price="64.99">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-        </div>
-        
-        <h2 class="section-title">APKMOD</h2>
-        
-        <!-- === ANDROID SECTION (SUBSTITUÍDA PELOS PLANOS SNOW CLIENT) === -->
-        <div class="products">
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Snow Client - 3 Dias</h3>
-                    <span class="platform">APKMOD</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 20,00</span>
-                        <span class="new-price">R$ 16,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="10" data-name="Snow Client - 3 Dias" data-price="16.00">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Snow Client - 7 Dias</h3>
-                    <span class="platform">APKMOD</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 40,00</span>
-                        <span class="new-price">R$ 35,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="11" data-name="Snow Client - 7 Dias" data-price="35.00">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Snow Client - 15 Dias</h3>
-                    <span class="platform">APKMOD</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 65,00</span>
-                        <span class="new-price">R$ 55,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="12" data-name="Snow Client - 15 Dias" data-price="55.00">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Snow Client - 31 Dias</h3>
-                    <span class="platform">APKMOD</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 100,00</span>
-                        <span class="new-price">R$ 90,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="13" data-name="Snow Client - 31 Dias" data-price="90.00">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-        </div>
-        
-        <h2 class="section-title">Corp Services</h2>
-        
-        <div class="products">
-            <div class="product-card">
-                <div class="product-header">
-                    <h3>Conta supercell Brawl Stars+Clash Royale</h3>
-                    <span class="platform">Corp Services</span>
-                </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="old-price">R$ 170,00</span>
-                        <span class="new-price">R$ 130,00</span>
-                    </div>
-                    <button class="btn-buy" data-id="20" data-name="Conta supercell Brawl Stars+Clash Royale" data-price="130,00">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p class="footer-text">Desenvolvido pela <strong>Ic3 Corporation Cheats</strong></p>
-            <p class="copyright">Copyright © 2025 - Ic3 Corporation.<br>Termos e condições</p>
-        </footer>
-    </div>
 
-    <!-- Carrinho de compras -->
-    <div class="cart-container">
-        <button class="cart-btn">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count">0</span>
-        </button>
-    </div>
-    
-    <div class="cart-modal">
-        <div class="cart-header">
-            <h3 class="cart-title">Carrinho de Compras</h3>
-            <button class="close-cart"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="cart-items">
-            <!-- Itens do carrinho serão adicionados aqui via JavaScript -->
-        </div>
-        <div class="cart-total">
-            Total: <span class="total-price">R$ 0,00</span>
-        </div>
-        <button class="checkout-btn">Finalizar Compra via WhatsApp</button>
-    </div>
-    
-    <div class="overlay"></div>
+<header>
+  <h1>Ninja Store</h1>
+</header>
 
-    <!-- Toast de notificação -->
-    <div class="toast" id="toast">
-        <div class="toast-content">
-            <i class="fas fa-check-circle"></i>
-            <span class="toast-message">Produto adicionado ao carrinho!</span>
-        </div>
-    </div>
+<main id="products"></main>
 
-    <script src="script.js"></script>
+<!-- MODAL PIX -->
+<div id="pixModal" class="modal">
+  <img id="pixQr">
+  <p>Aguardando pagamento...</p>
+</div>
+
+<script src="script.js"></script>
 </body>
-    </html>
+</html>
