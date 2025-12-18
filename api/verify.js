@@ -1,36 +1,43 @@
-import mysql from 'mysql2/promise';
+import { db } from '../db.js';
 
 export default async function handler(req, res) {
   const { id } = req.query;
 
-  const evopay = await fetch(
+  const evo = await fetch(
     `https://pix.evopay.cash/v1/pix?id=${id}`,
     { headers: { 'API-Key': process.env.EVOPAY_API_KEY } }
   );
 
-  const payment = await evopay.json();
+  const data = await evo.json();
 
-  if (payment.status !== 'CONCLUÍDA') {
+  if (data.status !== 'CONCLUÍDA')
     return res.json({ paid: false });
-  }
 
-  const db = await mysql.createConnection(process.env);
-
-  const [rows] = await db.execute(
-    'SELECT * FROM orders WHERE evopay_id = ? AND status = "pending"',
+  const [[order]] = await db.query(
+    'SELECT * FROM orders WHERE evopay_id=?',
     [id]
   );
 
-  if (!rows.length) return res.json({ paid: false });
+  if (!order || order.paid)
+    return res.json({ paid: false });
 
-  await db.execute(
-    'UPDATE orders SET status="paid" WHERE evopay_id=?',
-    [id]
+  const [[product]] = await db.query(
+    'SELECT * FROM products WHERE id=?',
+    [order.product_id]
   );
 
-  // produto liberado AQUI
+  await db.query(
+    'UPDATE orders SET paid=1 WHERE id=?',
+    [order.id]
+  );
+
+  await db.query(
+    'UPDATE products SET stock=stock-1 WHERE id=?',
+    [product.id]
+  );
+
   res.json({
     paid: true,
-    delivery: "https://link-do-produto-ou-texto"
+    delivery: product.delivery
   });
-}
+    }
