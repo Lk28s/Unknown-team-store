@@ -1,21 +1,20 @@
-import mysql from 'mysql2/promise';
+import { db } from '../db.js';
 
 export default async function handler(req, res) {
-  if (req.headers.authorization !== process.env.ADMIN_KEY) {
+  if (req.headers.authorization !== process.env.ADMIN_TOKEN)
     return res.status(401).end();
-  }
-
-  const db = await mysql.createConnection(process.env);
 
   if (req.method === 'POST') {
     const { name, price, stock, delivery } = req.body;
-    await db.execute(
+    await db.query(
       'INSERT INTO products (name, price, stock, delivery) VALUES (?,?,?,?)',
       [name, price, stock, delivery]
     );
-    return res.json({ ok: true });
+    res.json({ ok: true });
   }
 
-  const [products] = await db.execute('SELECT * FROM products');
-  res.json(products);
+  if (req.method === 'GET') {
+    const [rows] = await db.query('SELECT * FROM products');
+    res.json(rows);
+  }
 }
