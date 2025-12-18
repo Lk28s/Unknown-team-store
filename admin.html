@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Ninja Store</title>
+</head>
+<body>
+
+<h2>Painel Admin</h2>
+
+<input id="name" placeholder="Nome">
+<input id="price" placeholder="Preço">
+<input id="stock" placeholder="Estoque">
+<textarea id="delivery" placeholder="Entrega (link, login, texto)"></textarea>
+
+<button onclick="add()">Adicionar</button>
+
+<hr>
+<div id="list"></div>
+
+<script>
+const TOKEN = 'SEU_ADMIN_TOKEN';
+
+async function add() {
+  await fetch('/api/admin', {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json',
+      'Authorization': TOKEN
+    },
+    body: JSON.stringify({
+      name: name.value,
+      price: price.value,
+      stock: stock.value,
+      delivery: delivery.value
+    })
+  });
+  load();
+}
+
+async function load() {
+  const res = await fetch('/api/admin', {
+    headers: { 'Authorization': TOKEN }
+  });
+  const data = await res.json();
+  list.innerHTML = JSON.stringify(data, null, 2);
+}
+
+load();
+</script>
+
+</body>
+</html>
